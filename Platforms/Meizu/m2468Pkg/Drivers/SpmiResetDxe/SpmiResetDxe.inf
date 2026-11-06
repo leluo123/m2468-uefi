@@ -1,0 +1,35 @@
+## @file SpmiResetDxe.inf
+#  SPMI PMIC Arbiter probe for the mars/m2468 chain (compact, crash-dump friendly).
+#
+#  Depex is TRUE so the probe dispatches as early as possible and the reading is
+#  in the Qcom debug buffer by the time ButtonsDxe faults (no PmicGpioProtocol).
+#  The crash handler then drains that buffer to the panel.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x0010005
+  BASE_NAME                      = SpmiResetDxe
+  FILE_GUID                      = 3D7F2A16-9C4E-4B58-A2D1-6E0B84F5C927
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = SpmiResetDxeEntry
+
+[Sources]
+  SpmiResetDxe.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ArmPkg/ArmPkg.dec
+
+[LibraryClasses]
+  DebugLib
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  IoLib
+  BaseLib
+
+[Depex]
+  TRUE
